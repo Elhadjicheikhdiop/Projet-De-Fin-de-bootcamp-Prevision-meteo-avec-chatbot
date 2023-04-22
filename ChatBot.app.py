@@ -11,17 +11,7 @@ from io import BytesIO
 with open('xgb.pkl', 'rb') as f:
     model = pickle.load(f)
     
-# Définir l'image d'arrière-plan
-page_bg_img = '''
-<style>
-body {
-background-image: url("https://images.unsplash.com/photo-1542281286-9e0a16bb7366");
-background-size: cover;
-}
-</style>
-'''
 
-st.markdown(page_bg_img, unsafe_allow_html=True)
 # Obtention de la ville à partir de laquelle l'utilisateur veut obtenir la météo
 # Message d'introduction
 st.title("Chatbot météo")
