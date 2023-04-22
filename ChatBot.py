@@ -1,4 +1,3 @@
-
 import streamlit as st
 import speech_recognition as sr
 import requests
@@ -11,7 +10,18 @@ from io import BytesIO
 # Chargement du modèle XGBoost enregistré dans un fichier pickle
 with open('xgb.pkl', 'rb') as f:
     model = pickle.load(f)
+    
+# Définir l'image d'arrière-plan
+page_bg_img = '''
+<style>
+body {
+background-image: url("https://images.unsplash.com/photo-1542281286-9e0a16bb7366");
+background-size: cover;
+}
+</style>
+'''
 
+st.markdown(page_bg_img, unsafe_allow_html=True)
 # Obtention de la ville à partir de laquelle l'utilisateur veut obtenir la météo
 # Message d'introduction
 st.title("Chatbot météo")
@@ -64,14 +74,14 @@ if submit_button:
     data1 = get_weather(city)
     
     # Affichage de la réponse du chatbot et des prévisions météorologiques
-    st.write(f"Conditions météorologiques: {data1['weather'][0]['description']}")
-    st.write(f"Température: {round(data1['main']['temp'] - 273.15)}°C")
-    st.write(f"Humidité: {data1['main']['humidity']}%")
-    st.write(f"Vitesse du vent: {data1['wind']['speed']} m/s")
+    st.write(f"Conditions météorologiques: {data['weather'][0]['description']}")
+    st.write(f"Température: {round(data['main']['temp'] - 273.15)}°C")
+    st.write(f"Humidité: {data['main']['humidity']}%")
+    st.write(f"Vitesse du vent: {data['wind']['speed']} m/s")
     
     
     # Synthèse vocale de la réponse du chatbot
-    audio_file = text_to_speech(f"La prévision météorologique pour {data1['name']} est {data1['weather'][0]['description']} avec une température de {round(data1['main']['temp'] - 273.15)} degrés Celsius, une humidité de {data1['main']['humidity']} pour cent et une vitesse de vent de {data1['wind']['speed']} mètres par seconde.")
+    audio_file = text_to_speech(f"La prévision météorologique pour {data['name']} est {data['weather'][0]['description']} avec une température de {round(data['main']['temp'] - 273.15)} degrés Celsius, une humidité de {data['main']['humidity']} pour cent et une vitesse de vent de {data['wind']['speed']} mètres par seconde.")
     st.audio(audio_file, format='audio/mp3')
 
 # Bouton pour effacer l'historique des discussions et recommencer une nouvelle conversation
@@ -88,4 +98,4 @@ for message in st.session_state.history:
 
 # Ajout de nouveaux messages à l'historique des discussions
 if submit_button:
-    st.session_state.history.append(f"Prévision météorologique pour {data1['name']}: {data1['weather'][0]['description']}, température de {round(data1['main']['temp'] - 273.15)}°C, humidité de {data1['main']['humidity']}%, vitesse de vent de {data1['wind']['speed']} m/s.")
+    st.session_state.history.append(f"Prévision météorologique pour {data['name']}: {data['weather'][0]['description']}, température de {round(data['main']['temp'] - 273.15)}°C, humidité de {data['main']['humidity']}%, vitesse de vent de {data['wind']['speed']} m/s.")
