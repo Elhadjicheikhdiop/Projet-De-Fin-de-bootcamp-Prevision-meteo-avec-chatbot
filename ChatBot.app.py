@@ -6,6 +6,7 @@ import pyttsx3
 import pickle
 from gtts import gTTS
 from io import BytesIO
+import pyaudio
 
 # Chargement du modèle XGBoost enregistré dans un fichier pickle
 with open('xgb.pkl', 'rb') as f:
